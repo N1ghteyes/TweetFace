@@ -8,7 +8,8 @@ Wrapper for the twitterOauth php class - uses __get() and __call() to provide an
   ```$t = new tweetface(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET);```
 
 ### Normal implimentation
-  using twitter oath this would be: $t->get("statuses/home_timeline", ["count" => 25, "exclude_replies" => true]);  
+  using twitter oath this would be: 
+  ```//$t->get("statuses/home_timeline", ["count" => 25, "exclude_replies" => true]);```
   ```$response = $t->get->statuses->home_timeline(["count" => 25, "exclude_replies" => true]);```
 
 ### multiple requests within scope
@@ -21,7 +22,7 @@ Wrapper for the twitterOauth php class - uses __get() and __call() to provide an
   Keep scope, change the request  
   ```$t->post->new("source_control");```
   
-  Keep scope and request  
+  ```Keep scope and request 
   ```$t->destroy(["id" => 587424932]);```
 
 ### Quick tweet
