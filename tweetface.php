@@ -74,6 +74,7 @@ class tweetface
      * Passing both 'path' and 'status' through arguments will tweet the attached media immediately.
      * @param $name
      * @param $arguments
+     * @return Mixed
      */
     public function __call($name, $arguments){
         $response = array();
@@ -110,7 +111,7 @@ class tweetface
 
     /**
      * Handle initial media upload - Allow for chaining.
-     * @param $path
+     * @param $request
      * @return $this
      */
     private function addMedia($request){
