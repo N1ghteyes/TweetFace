@@ -29,7 +29,7 @@ Wrapper for the twitterOauth php class - uses __get() and __call() to provide an
   
   Keep scope, change the request  
   ```php
-  $t->post->new("source_control");
+  $t->post->new(['text' => 'Hello!', 'screen_name' => "source_control"]);
   ```
   
   Keep scope and request 
