@@ -1,9 +1,9 @@
 # TweetFace
-======
+------
 Wrapper for the twitterOauth php class - uses __get() and __call() to provide an intelegent object interface.
 
 ## Examples
-======
+------
   Load the object  
   ```
   $t = new tweetface(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET);
