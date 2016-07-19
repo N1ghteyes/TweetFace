@@ -38,7 +38,7 @@ Wrapper for the twitterOauth php class - uses __get() and __call() to provide an
   ```
 
 ### Quick tweet
-  this resets the request and scope to get statuses  
+  this resets the request and scope to post statuses  
   ```php
   $t->tweet('My Tweet Text');
   ```
