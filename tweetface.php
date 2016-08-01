@@ -49,6 +49,15 @@ class tweetface
     }
 
     /**
+     * Function to return the log for a specific function, or the entire call chain.
+     * @param string $function
+     * @return array
+     */
+    public function getLog($function = ""){
+        return isset($function) ? $this->log[$function] : $this->log;
+    }
+
+    /**
      * Uses __get() to (ironically) set the connection type and scope.
      * @param $name
      * @return $this
@@ -77,22 +86,22 @@ class tweetface
      * @return Mixed
      */
     public function __call($name, $arguments){
+        $this->_buildInitialRequest($arguments);
         $response = array();
         switch(strtolower($name)){
             case 'upload': //We have to handle media carefully, so it has its own thing here.
             case 'media': //allow for a media call, even though it should be upload.
-                if($this->scope == 'media' && isset($arguments)){
-                    $this->addMedia((is_string($arguments) ? ['media' => $arguments] : $arguments));
-                    if(is_array($arguments) && isset($arguments['status'])) {
-                        $this->request = array_merge($this->request, $arguments);
-                        $this->log[__FUNCTION__.'('.$name.')'] = $response = $this->post->statuses->update($arguments); //call self, set type and scope.
+                if($this->scope == 'media' && !empty($this->request)){
+                    $this->addMedia($this->request);
+                    scl($this->media);
+                    if(isset($this->request['status'])) {
+                        $this->log[__FUNCTION__.'('.$name.')'] = $response = $this->post->statuses->update(); //call self, set type and scope.
                     } else {
                         return $this; //allow chaining for media
                     }
                 }
                 break;
             default:
-                $this->request = array_merge($this->request, $arguments); //allow for multiple media in tweets
                 $this->log[__FUNCTION__.'('.$name.')'] = $response = $this->t->{$this->type}($this->scope.'/'.$name, $this->request);
                 break;
         }
@@ -107,6 +116,19 @@ class tweetface
     private function setScope($name){
         $this->scope = $name;
         return $this;
+    }
+
+    private function _buildInitialRequest($args){
+        if(is_array($args) && !empty($args)) {
+            foreach ($args as $inner) {
+                if(is_array($inner)) {
+                    $this->request += $inner;
+                } else {
+                    //Assume string or object, if the former right now we only support media. If the latter, typecast
+                    $this->request += $this->scope == 'media' ? ['media' => $inner] : (array)$inner;
+                }
+            }
+        }
     }
 
     /**
