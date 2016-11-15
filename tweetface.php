@@ -93,7 +93,6 @@ class tweetface
             case 'media': //allow for a media call, even though it should be upload.
                 if($this->scope == 'media' && !empty($this->request)){
                     $this->addMedia($this->request);
-                    scl($this->media);
                     if(isset($this->request['status'])) {
                         $this->log[__FUNCTION__.'('.$name.')'] = $response = $this->post->statuses->update(); //call self, set type and scope.
                     } else {
