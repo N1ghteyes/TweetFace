@@ -49,6 +49,21 @@ class tweetface
     }
 
     /**
+     * Function to clean up a tweet and convert links and hash tags appropriately.
+     * @param $tweet - Tweet string that needs to be cleaned.
+     * @return string - String with links and hash tags converted.
+     */
+    public function cleanTweet($tweet){
+        $tweetText = preg_replace("/(http:\/\/|(www.)|https:\/\/)(([A-Za-z0-9_-]+\\.)*([A-Za-z0-9_-]+\/)*)([A-Za-z0-9_-]+[\\?#]*([^ ]*))/", '<a href="http://$2$3$6" target="_blank">$1$2$4$5$6</a>', $tweet->text);
+        //quick hack to fix eclipses link issues
+        $tweetText = str_replace(array('...>', '..."', '…"'), array('>', '"', '"'), $tweetText);
+        # Linkify user mentions
+        $tweetText = preg_replace("/ @(\w+)/", ' <a href="https://www.twitter.com/$1" target="_blank">@$1</a>', $tweetText);
+        # Linkify tags
+        return preg_replace("/#(\w+)/", '<a href="https://twitter.com/hashtag/$1" target="_blank">#$1</a>', $tweetText);
+    }
+
+    /**
      * Function to return the log for a specific function, or the entire call chain.
      * @param string $function
      * @return array
